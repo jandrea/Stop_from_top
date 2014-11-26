@@ -164,7 +164,7 @@ void ProduceCutBasedTemplates(){
  yield_vv__btag__plus       ->SetBinContent(1,  32.2   +0.058*32.2);  
  yield_rare__btag__plus     ->SetBinContent(1,  239.6  +0.012*239.6);  
  yield_ttbar__btag__plus    ->SetBinContent(1,  24050  +0.014*24050); 
- yield_susy175__btag__minus  ->SetBinContent(1,  3672.3+0.027*3672.3);  
+ yield_susy175__btag__plus  ->SetBinContent(1,  3672.3+0.027*3672.3);  
  
  yield_singletop__btag__minus->SetBinContent(1,  1010.5-0.017*1010.5);  
  yield_vv__btag__minus       ->SetBinContent(1,  32.2  -0.058*32.2);  

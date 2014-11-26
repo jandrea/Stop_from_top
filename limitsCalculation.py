@@ -39,14 +39,14 @@ def get_model(signalname):
     # systematic. In this case, the same parameter will be used; shape and rate changes 
     # will be 100% correlated.
     
-    model.add_lognormal_uncertainty('singletop_rate', math.log(1.22), 'singletop')
-    model.add_lognormal_uncertainty('dy_rate',   math.log(1.21), 'dy'  )
+    model.add_lognormal_uncertainty('singletop_rate', math.log(1.30), 'singletop')
+    model.add_lognormal_uncertainty('dy_rate',   math.log(1.30), 'dy'  )
     #model.add_lognormal_uncertainty('dy_rate',   math.log(10.), 'dy'  )
     #model.distribution.set_distribution_parameters('dy_rate', width=1000000) 
     
-    model.add_lognormal_uncertainty('rare_rate', math.log(1.20), 'rare')
-    #model.add_lognormal_uncertainty('fake_rate', math.log(1.99), 'fake')
-    model.add_lognormal_uncertainty('vv_rate',   math.log(1.22), 'vv'  )
+    model.add_lognormal_uncertainty('rare_rate', math.log(1.30), 'rare')
+    model.add_lognormal_uncertainty('fake_rate', math.log(1.30), 'fake')
+    model.add_lognormal_uncertainty('vv_rate',   math.log(1.30), 'vv'  )
     model.add_lognormal_uncertainty('ttbar_rate',   math.log(1.09), 'vv'  )
     #model.add_lognormal_uncertainty('ww_rate',   math.log(1.23), 'ww'  )
     #model.add_lognormal_uncertainty('zz_rate',   math.log(1.23), 'zz'  )
@@ -109,13 +109,6 @@ model_summary(model)
 #    xsections2.append(tmp)
 #print "Signal processes : " + str(xsections2)
 
-options = Options()
-#options.set('minimizer', 'minuit_tolerance_factor', '1000')
-#options.set("newton", "use_nll_der", "False")
-#options.set('main', 'n_threads', '15')
-
-
-#options.set('minimizer', 'strategy', 'newton_vanilla')  
 
 
 #plot_exp, plot_obs = cls_limits(model, signal_processes = xsections2)
@@ -128,8 +121,8 @@ fit = mle(model, 'data', n = 1, signal_process_groups = singnal_shapes, with_cov
 parameter_values = {}
 parameter_uncert = {}
 for p in model.get_parameters([]):
-    parameter_values[p] = fit['susyStop200'][p][0][0]
-    parameter_uncert[p] = fit['susyStop200'][p][0][1]
+    parameter_values[p] = fit['susy175'][p][0][0]
+    parameter_uncert[p] = fit['susy175'][p][0][1]
     
     print [p, parameter_values[p], parameter_uncert[p] ]
     
@@ -147,38 +140,25 @@ write_histograms_to_rootfile(histos, 'histos-mle_susyStop.root')
 
 
 #plot_exp, plot_obs = cls_limits(model, signal_process_groups =   singnal_shapes, frequentist_bootstrapping=False)
-plot_exp, plot_obs = cls_limits(model, signal_process_groups =   singnal_shapes, options = options)
+#plot_exp, plot_obs = cls_limits(model, signal_process_groups =   singnal_shapes, options = options)
+
+
 #plot_exp, plot_obs = cls_limits(model, signal_process_groups =   singnal_shapes)
-
-
-plot_exp.write_txt('cls_limits_expected_susy175.txt')
-plot_obs.write_txt('cls_limits_observed_susy175.txt')
-
-
-
-### For max. Likelihood Fit results
-### For max. Likelihood Fit results
-### For max. Likelihood Fit results
-### For max. Likelihood Fit results
+#plot_exp.write_txt('cls_limits_expected_susy175.txt')
+#plot_obs.write_txt('cls_limits_observed_susy175.txt')
 
 
 
-### For profile likelihood intervals
-### For profile likelihood intervals
-### For profile likelihood intervals
-### For profile likelihood intervals
+plot_exp, plot_obs = bayesian_limits(model)
 
-#fit = pl_interval(model, 'data', n = 1,signal_process_groups = singnal_shapes )
-#parameter_clsUp = {}
-#parameter_clsDown = {}
-#for p in model.get_parameters([]):
-    #parameter_clsUp[p] = fit['FCNC_zut05'][p]
-    #parameter_clsDown = fit['FCNC_zut05'][p][0][1]
-    #print p
-    #print [p, parameter_values[p], parameter_uncert[p] ]
-    
-#histos = evaluate_prediction(model, parameter_values, include_signal = False)
-#write_histograms_to_rootfile(histos, 'histos-mle.root')
+plot_exp.write_txt('bayesian_limits_expected.txt')
+plot_obs.write_txt('bayesian_limits_observed.txt')
+
+
+plot_exp, plot_obs = cls_limits(model)
+plot_exp.write_txt('cls_limits_expected.txt')
+plot_obs.write_txt('cls_limits_observed.txt')
+
 
 
 
